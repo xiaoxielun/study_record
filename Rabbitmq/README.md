@@ -3,7 +3,8 @@
 只有root和rabbit用户可以使用rabbitmqctl。
 ---
 ### 应用管理
-* 启动Rabbitmq应用程序 `rabbitmqctl start_app`  
+* 启动Rabbitmq应用程序 `rabbitmqctl start_app`
+
     >执行stop_app命令后可以执行该命令来启动，如果服务从未启动需要执行service rabbitmq-server start来启动服务。
 ### 用户管理
 * 添加用户 `rabbitmqctl add_user username password`
