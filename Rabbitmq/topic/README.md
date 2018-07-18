@@ -1,5 +1,5 @@
 # topic
----
+
 * 运行多个receive.php，带路由规则x.x.x接收特定消息并打印至终端
 
 * 运行send.php，带路由规则x.x.x发送特定消息至exchange

@@ -1,5 +1,5 @@
 # direct类型的交换机简单用法
----
+
 * 运行多个receive.php，带参数error、warn、info接收特定消息并打印至终端
     >php receive.php error warn  
     >php receive.php info

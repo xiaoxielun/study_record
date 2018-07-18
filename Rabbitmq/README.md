@@ -1,5 +1,5 @@
 # 消息代理Rabbitmq学习笔记。
----
+
 ### 软件安装
 >Rabbitmq依赖Erlang，详细安装细节见官方提供的文档:http://www.rabbitmq.com/install-debian.html
 
