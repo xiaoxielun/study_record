@@ -1,6 +1,9 @@
-消息代理Rabbitmq学习笔记。  
-以下内容包括应用管理、用户管理、访问控制、服务器状态等的管理操作。其它文件夹是php-amqplib(php写的Rabbitmq库)的一些用法示例，可以根据目录下的文档进行测试。  
+消息代理Rabbitmq学习笔记。
+以下内容包括应用管理、用户管理、访问控制、服务器状态等的管理操作。其它文件夹是php-amqplib(php写的Rabbitmq库)的一些用法示例，可以根据目录下的文档进行测试。
 只有root和rabbit用户可以使用rabbitmqctl。
+
+---
+
 ### 应用管理
 * 启动Rabbitmq应用程序 `rabbitmqctl start_app`
 
