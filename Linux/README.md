@@ -43,7 +43,6 @@
     * `/匹配字符`查找字符，n下一个，N上一个
     
 ---
-
 ### shell script
 >大多数脚本第一行如下：`#!/bin/bash`，这被称为"shebang"，指明用哪个shell运行脚本
 
@@ -91,18 +90,21 @@
         esac
 * 循环
     * while
+    
             while []
             do
                 some expression
             done
 
     * until
+    
             until []
             do
                 some expression
             done
         
     * for
+    
             for var in arr
             do
                 some expression
@@ -161,11 +163,12 @@
             done
             wait;
     * 从子shell中读取 
-    > `< <` 中间有空格
+        > `< <` 中间有空格
     
             while read t
             do
             done < <(echo $t)
+            
 ---
 ### read
 * `read -n 5 var` 读取n个字符自动结束并存入变量
