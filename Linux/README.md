@@ -1,10 +1,10 @@
 # Linux学习笔记
 
-## 目录
 * [vi](#vi)
 * [shell script](#shell-script)
 * [read](#read)
 
+---
 ### vi
 有三种模式：一般指令模式、编辑模式、命令行命令模式。
 
@@ -42,6 +42,8 @@
     * :set nonu不显示行号
     * `/匹配字符`查找字符，n下一个，N上一个
     
+---
+
 ### shell script
 >大多数脚本第一行如下：`#!/bin/bash`，这被称为"shebang"，指明用哪个shell运行脚本
 
@@ -72,12 +74,14 @@
     * `declare -A arr`  
       `arr=([index1]=val1 [index2]=val2)`，定义关联数组
 * 函数
+
         // 定义函数  
         function fname()  
         {
     
         }
 * 分支
+
         case "" in
         
             "")  
@@ -162,7 +166,7 @@
             while read t
             do
             done < <(echo $t)
-            
+---
 ### read
 * `read -n 5 var` 读取n个字符自动结束并存入变量
 * `read -s var` 无回显方式读取输入
