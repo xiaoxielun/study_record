@@ -44,6 +44,7 @@
 * 删除虚拟主机 `rabbitmqctl delete_vhost hostname`
 * 虚拟主机列表 `rabbitmqctl list_vhosts`
 * 设置用户权限 `rabbitmqctl set_permissions [-p vhost] username 可配置权限资源 可写入资源 可读取资源`
+    >如何设置权限规则:匹配队列或交换机名称的正则表达式，比如"^q.*$"，允许拥有以"q"开头的所有队列或交换机的配置、读取或写入的权限。
 * 清除用户权限 `rabbitmqctl clear_permissions [-p vhost] username`
 * 用户权限列表 `rabbitmqctl list_permissions`
 * 用户权限 `rabbitmqctl list_user_permissions username`
@@ -57,6 +58,8 @@
 * 列出消费者 `rabbitmqctl list_consumers`
 
 ---
+>相关概念
+
 ### 消息
 消息可以声明为持久性消息，在Rabbitmq挂掉重启后，消息还会存在。
 
@@ -79,3 +82,19 @@
 
 消费者发回ack（nowledgement）告诉RabbitMQ已收到，消息已经处理，RabbitMQ可以自由删除它。
 
+### 访问控制（身份验证、权限）
+新服务器有一个名为"/"的虚拟主机。名为guest的用户，密码为guest，其对"/"虚拟主机有完全访问权限 。
+
+>默认"guest"用户只能通过localhost连接，可通过修改配置文件添加`loopback_users = none`来解决该问题。
+
+### 虚拟主机
+
+Rabbitmq中的连接，交换，队列，绑定，用户权限，策略和其他一些都属于虚拟主机。类似于apache的虚拟主机。只不过apache是通过配置文件实现虚拟主机，而Rabbitmq是通过rabbitmqctl创建。
+
+客户端连接到Rabbitmq时，它指定要连接的vhost名称。如果身份验证成功并且提供的用户名被授予 vhost的权限，则建立连接。
+
+* 限制客户端连接数:`rabbitmqctl set_vhost_limits -p vhost_name '{"max-connections"：256}'`
+* 禁用客户端连接:`rabbitmqctl set_vhost_limits -p vhost_name '{"max-connections"：0}'`
+* 不限制客户端连接数:`rabbitmqctl set_vhost_limits -p vhost_name '{"max-connections":-1}'`
+* 限制虚拟主机对列数:`rabbitmqctl set_vhost_limits -p vhost_name '{"max-queues"：1024}'`
+* 不限制虚拟主机对列数:`rabbitmqctl set_vhost_limits -p vhost_name '{"max-queues"：-1}'`
