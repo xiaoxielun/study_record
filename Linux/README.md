@@ -38,7 +38,21 @@
 * [tr](#tr)
 * [touch](#touch)
 * [用户管理](#user-manage)
-
+* [日志文件](#log)
+* [diff](#diff)
+* [wc](#wc)
+* [网络](#network)
+* [ssh](#ssh)
+* [ftp](#ftp)
+* [convert](#convert)
+* [lynx](#lynx)
+* [ffmpeg](#ffmpeg)
+* [paste](#paste)
+* [目录权限](#directory)
+* [加解密](#crypt)
+* [md5](#md5)
+* [tree](#tree)
+* [expect](#expect)
 
 ---
 ### commands
@@ -276,6 +290,7 @@
 * `cat -T file` 将制表符换为^|显示
 * `cat -n file` 每行显示行号
 * `cat -b file` 除空行外显示行号
+* `tac file1` 从后往前逐行打印文本
 
 ---
 ### head tail
@@ -527,7 +542,8 @@
 
 ---
 ### file
-* `file filename` 文件类型
+* `file filename` 文件类型信息
+* `file -b filename` 打印不包括文件名的文件类型信息
 
 ---
 ### kill
@@ -661,7 +677,7 @@
         -m,--mail=command:压缩日之后,发送日志到指定邮箱
         -s,--state=statefile:使用指定的状态文件
         -v,--verbose:显示转储过程	
-        
+
 ---
 ### cut
 >将文本按列切分
@@ -672,3 +688,146 @@
 * `cut -fn -d file` 指定定界符
 * `cut -c1-5 file` 	切出每行1-5的字符
 * `cut --output-delimiter=" "` 指定输出定界符
+
+---
+### log
+* `/var/log/boot.log` 本次开机启动信息
+* `/var/log/cron`
+* `/var/log/dmesg` 记录系统在开机的时候核心侦测过程所产生的各项信息
+* `/var/log/lastlog` 可以记录系统上面所有的帐号最近一次登陆系统时的相关信息
+* `/var/log/messages` 这个文件相当的重要，几乎系统发生的错误讯息 （或者是重要的信息）都会记录在这个文件中
+* `/var/log/secure` 基本上，只要牵涉到“需要输入帐号密码”的软件，那么当登陆时（不管登陆正确或错误）都会被记录在此文件中
+* `/var/log/wtmp, /var/log/faillog` 这两个文件可以记录正确登陆系统者的帐号信息（wtmp） 与错误登陆时所使用的帐号信息（faillog）
+
+---
+### diff
+* `diff file1 file2` 生成差异文件
+* `diff -u file1 file2 > new_file`
+* `patch -p1 file1 < new_file` 对文件进行修补
+* `patch -p1 file1 < new_file` 再次执行撤销修改
+
+---
+### wc
+* `wc -l file` 统计文件行数
+* `wc -w file` 统计文件单词数
+* `wc -c file` 统计文件字符数
+* `wc file -L` 打印文件中最长的一行的长度
+
+---
+### network
+* `ifconfig` 列出当前网络接口配置
+* `ifconfig wlan0 192.168.0.80`	手动设置网络接口ip地址
+* `ifconfig wlan0 192.168.0.80 netmask 255.255.254.0` 子网掩码
+* `dhclient eth0` 自动配置网络接口
+* `ifconfig eth0 hw ether 00:1C:bf:87:25:d5` 硬件地址欺骗
+* `host 域名` 列出域名的所有ip地址
+* `nslookup域名`	 查询dns相关细节信息
+
+    ---
+* `route` 显示路由表
+* `route -n` 以数字形式显示路由地址
+* `route add default gw 192.168.1.0 wlan0` 添加默认网关
+
+    ---
+* `ping address` 检查是否可以到达
+* `ping address -c count` 指定次数
+
+---
+### ssh
+    ssh name@host_ip command
+    
+---
+### ftp
+    lftp username@host
+    
+---
+### convert
+* `convert file -resize "100x" newfilename` 生成缩略图
+* `convert file -resize "50%" newfile` 按比例缩小、放大图片
+
+---
+### lynx
+* `lynx -dump url` 打印url，html解析后的纯文本
+
+---
+### ffmpeg 
+        // 截取视频文件某一帧
+        ffmpeg  -i  filename(视频文件) -y -f image2 -ss 10(那一秒的画面) -t 0.001 -s 200x100(图片大小) filename(保存的图片名)
+
+>常见用法:https://www.cnblogs.com/wainiwann/p/4128154.html
+
+---
+### paste
+* `paste file1 file2` 将两个文件按列拼接
+* `paste file1 file2 -d ","` 指定定界符
+
+---
+### directory
+>目录的读权限（r）允许读取目录中文件和子目录的列表
+
+>目录的写权限（w）允许在目录中创建或删除文件或目录
+
+>目录的执行权限（x）指明是否可以访问目录中的文件和子目录
+
+>目录有一个特殊的权限，叫做粘滞位（sticky bit）。如果目录设置了粘滞位，只有创建该目录的用户才能删除目录中的文件，即使用户组和其他用户也有写权限，也无能无力。粘滞位出现在其他用户权限中的执行权限（x）位置。它使用t或T来表示。如果没有设置执行权限，但设置了粘滞位，就使用t；如果同时设置了执行权限和粘滞位，就使用T
+
+---
+### crypt
+* crypt 
+    >加密`crypt < filename > output`
+    
+    >解密`crypt password -d < filename`
+* gpg
+    >加密`gpg -c fiename`
+    >解密`gpg filename`
+* base64(编码)
+    >编码`base64 filename`
+    >解码`base64 -d filename`
+* shadow-like(散列)
+    >`openssl passwd -1 -salt '' 'password'`
+
+---
+### md5
+>校验与核实
+
+>`md5sum filename > file.md5`
+
+>`md5sum -c file.md5`
+
+---
+### tree
+* `tree dir` 以树状形式打印目录结构
+* `tree dir -P "*.php"` 重点打印出符合匹配的文件
+>同时打印出文件或目录大小
+
+---
+### expect
+>自动化脚本输入
+
+    1.sh
+    #!/bin/bash
+    read -p “input name:” name
+    read -p “input age:” age
+    echo $name,$age
+
+    2.sh
+    #!/usr/bin/expect
+    spawn ./1.sh
+    expect “input name:”
+    send “yc\n”
+    expect “input age:”
+    send “23\n”
+    expect eof
+    
+    ./2.sh
+
+---
+### 修改文件为不可修改状态
+* `chattr +i file` 将文件设置为不可修改
+* `chattr -i file` 文件恢复可写状态
+
+---
+### 使用环回文件
+* `mkfs.ext4 filename` 将文件格式化成ext4文件系统
+* `mount -o loop filename path` 挂载环回文件系统
+* `umount path` 卸载挂载
