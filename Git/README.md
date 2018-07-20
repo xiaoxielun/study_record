@@ -43,21 +43,30 @@
 ### 远程仓库
 * git和github通信需要ssh加密
 * 生成秘钥
+        
         ssh-keygen -t rsa -C "youremail@example.com"
 * 给本地仓库关联一个远程仓库
+        
         git remote add origin git@github.com:michaelliao/learngit.git
 * 将master推动到远程仓库
+        
         git push -u origin master（加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令）
+        
         注意如果创建的远程仓库不为空（比如在创建时选了readme.md等），则在本地不能直接push（本地关联的仓库不能有文件），必须先clone下来。空仓库才可以push（相当于初始化仓库）git pull origin master     
 * 克隆仓库
+        
         git clone git@github.com:xiaoxielun/test.git
 
 ### 分支
 * 创建分支
+        
         git branch dev
 * 切换分支
+        
         git checkout dev
 * 创建并切换到分支
+        
         git checkout -b dev
 * 分支列表
+        
         git branch
