@@ -1,4 +1,4 @@
-# Git
+# Git学习笔记
 ### git配置
         git config user.name 'username'
         
