@@ -8,8 +8,7 @@
 ### 添加文件到暂存区
         git add filename
 
-        可能遇到的问题:
-        warning: LF will be replaced by CRLF in readme.txt.The file will have its original line endings in your working directory  
+        可能遇到的问题:warning: LF will be replaced by CRLF in readme.txt.The file will have its original line endings in your working directory  
         这是因为git配置core.autocrlf = true 导致的，当autocrlf为true，git自动将添加至暂存区的文件中换行符为crlf替换为lf，checkout时再换回来，也就是说始终保证工作区的换行符为crlf，所以在window环境下可以配置该选项（linux下强烈建议配置为false）  
         CRLF：CarriageReturn LineFeed，回车 换行
 ### 提交到版本库
