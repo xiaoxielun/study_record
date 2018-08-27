@@ -33,7 +33,7 @@
         如果checkout之前有git add，则回退到add之后的状态
         如果checkout之前没有git add，回退到最近版本之后的状态
 ### 从暂存区撤销
-        git reset HEAD file 暂存区删除所有该文件的修改，工作区保持
+        git reset HEAD file 暂存区删除所有该文件的修改，工作区保持修改
 ### 删除文件
 >先在工作区删除文件
 
