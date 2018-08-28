@@ -104,9 +104,8 @@ git配置
         
         git checkout -b dev
         
-        
     >切换分支会影响工作目录的文件内容，会切换到目标分支最后一次提交的内容
-        
+
 * 创建分支
         
         git branch dev
@@ -116,7 +115,19 @@ git配置
 * 分支列表
         
         git branch
+* 删除分支
+        
+        git branch -d 分支名
+    >如果分支未合并，可能不能直接删除，可以 `-D` 强制删除
+        
+        git branch -D 分支名
+* 哪些分支已经合并到当前分支
+        
+        git branch --merged
 
+* 还没有合并的分支
+
+        git branch --no-merged
 更新与合并
 ---
 * 更新本地仓库至最新
@@ -126,7 +137,8 @@ git配置
         
         git merge <branch>
         
-    >可以先切换分支，然后合并
+    >可以先切换分支，然后合并  
+    >如果有冲突，需要手动解决冲突，之后add commit提交新版本
         
 标签
 ---
