@@ -2,7 +2,7 @@
 
 ### 概述
 
-    事务是一个不可再分的工作单位。
+事务是一个不可再分的工作单位。
 
 ### 特性
 * 原子性
@@ -36,7 +36,6 @@
 ### 事务隔离级别
 
     通过设置事务的隔离级别来解决上述问题
-![binding](./1.png)
 
 * 读未提交
 
@@ -46,11 +45,25 @@
     只可读取事务提交后的数据，可以解决脏读，但不能解决不可重复读和幻读的问题
 * 可重复读
 
-    事务读取到的数据是一个快照，另一个事物的提交不会改变当前事务的快照，解决了不可重复读，但没有解决幻读问题，因为事务一直读取的是快照
+    事务读取到的数据是一个快照，另一个事物的提交不会改变当前事务的快照，解决了不可重复读，但没有解决幻读问题
 * 串行化
     
     事务隔离级别设置为串行化时会锁表，其他事务就不能对表进行更新操作，解决了幻读问题。
+    
+![binding](./1.png)
+    
+>事务隔离性越高，越能保证数据的一致性和完整性，但并发性能会较低。一般将事务隔离级别设置为读已提交，解决脏读问题，不可重复读和幻读幻读问题可通过应用程序采用所来解决。
 
-    
-    
-    事务隔离性越高，越能保证数据的一致性和完整性，但并发性能会较低。一般将事务隔离级别设置为读已提交，解决脏读问题，不可重复读和幻读幻读问题可通过应用程序采用所来解决。
+### 相关命令
+* 查看当前mysql事务隔离级别 `select @@global.tx_isolation`
+* 查看mysql会话级别的事务隔离级别 `select @@tx_isolation`
+* 设置系统的事务隔离级别 `set global transaction isolation level read committed`
+* 设置会话的事务隔离级别 `set session transaction isolation level read committed`
+* 查看autocommit变量 `select @@autocommit`
+* 设置不自动提交 `set autocommit = 0`
+* 开启事务，使用 `start transaction` 或 `begin`
+* 事务回滚 `rollback`
+* 事务提交 `commit`
+* 在事务中创建一个保存点 `savepoint x1`，之后可以回滚或提交到保存点，`rollback x1` `commit x1`
+
+>可以设置的隔离级别 read uncommitted，read committed，repeatable read，serializable
