@@ -67,3 +67,6 @@
 * 在事务中创建一个保存点 `savepoint x1`，之后可以回滚或提交到保存点，`rollback x1` `commit x1`
 
 >可以设置的隔离级别 read uncommitted，read committed，repeatable read，serializable
+
+### 参考
+[MySQL的四种事务隔离级别](https://www.cnblogs.com/huanongying/p/7021555.html)
