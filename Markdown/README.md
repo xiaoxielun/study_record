@@ -162,7 +162,7 @@ Markdown语法整理
 [Markdown 语法说明 (简体中文版)](https://www.appinn.com/markdown/index.htm)  
 [Markdown语法整理](https://www.jianshu.com/p/67daca4d4502)
 
-- [] 跑步
-- [] 骑车
+- [ ] 跑步
+- [ ] 骑车
 - [x] 吃饭
-- [] 睡觉
+- [ ] 睡觉
