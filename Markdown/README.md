@@ -150,7 +150,19 @@ Markdown语法整理
     |内容|内容|内容|
     |内容|内容|内容|
     |内容|内容|内容|
+
+### 3、任务列表
+
+    - [] 跑步
+    - [] 骑车
+    - [x] 吃饭
+    - [] 睡觉
 四、参考
 ---
 [Markdown 语法说明 (简体中文版)](https://www.appinn.com/markdown/index.htm)  
 [Markdown语法整理](https://www.jianshu.com/p/67daca4d4502)
+
+- [] 跑步
+- [] 骑车
+- [x] 吃饭
+- [] 睡觉
