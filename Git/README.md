@@ -45,26 +45,31 @@ git常用配置
 * 提交日志
 
         git log
+        git log -p -2 最近两次提交和差异
+        git log --stat 每次提交的统计信息
         git log --pretty=oneline 信息一行显示
+        git log --pretty=format:"%h - %an, %ar : %s"
+        git log --pretty=oneline --graph
+        git log --pretty="%h - %s" --author=gitster --since="2008-10-01" --before="2008-11-01" --no-merges -- t/
 * 查看命令历史
 
         git reflog （和版本有关的），一般用于回到未来的版本，却不知道版本号
 
 撤销操作
 ---
-* _**版本**_回退
+* **版本**回退
 
         git reset --hard HEAD^ 回退到上一个版本
         git reset --hard 版本号前几位
-* 撤销_**工作目录**_文件修改
+* 撤销**工作目录**文件修改
 
         git checkout -- file 回退到最近版本或暂存区  
     >如果checkout之前已经将文件修改保存到暂存区，则回退到暂存区的内容，否则回退到最新版本的内容
 
-* 撤销_**暂存区**_的临时保存
+* 撤销**暂存区**的临时保存
 
         git reset HEAD file
-    >暂存区删除所有_**该文件**_的修改，工作区不变
+    >暂存区删除所有**该文件**的修改，工作区不变
 
 * 删除文件
 
@@ -132,7 +137,13 @@ git常用配置
 * 还没有合并的分支
 
         git branch --no-merged
+
+分支-变基
+---
+* 概述
         
+        在目标分支的基础上（共同祖先），将当前分支的改动在运行一次，git中的这种操作叫变基
+
 标签
 ---
     git tag 版本号 git版本号
@@ -140,3 +151,4 @@ git常用配置
 参考
 ---
 [git - 简明指南](http://rogerdudler.github.io/git-guide/index.zh.html)
+[Git - Book](https://git-scm.com/book/zh/v2)
