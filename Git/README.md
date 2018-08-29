@@ -100,6 +100,7 @@ git常用配置
 
         git push origin master
  
+        git push origin :分支名 删除远程分支
 分支
 ---
 >一般的，可以创建一个master分支，作为生产环境，平时不做改动，创建一个dev分支用于开发，开发和测试完成后，再将改动合并到master分支上
