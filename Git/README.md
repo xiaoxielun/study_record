@@ -6,19 +6,10 @@ Git学习笔记
 * [git常用配置](#git常用配置)  
 * [常用命令](#常用命令)  
 * [撤销操作](#撤销操作)  
-
-* [提交到版本库](#提交到版本库)  
-* [查看文件改动](#查看文件改动)  
-* [最近提交日志](#最近提交日志)  
-* [版本回退](#版本回退)  
-* [查看命令历史](#查看命令历史)  
-* [取消文件修改](#取消文件修改)  
-* [从暂存区撤销](#从暂存区撤销)  
-* [删除文件](#删除文件)  
 * [远程仓库](#远程仓库)  
 * [分支](#分支)  
-* [更新与合并](#更新与合并)  
-* [标签](#标签)  
+* [标签](#标签) 
+* [参考](#参考)  
 
 工作流
 ---
@@ -32,10 +23,13 @@ git常用配置
 常用命令
 ---
 * 初始化仓库、创建仓库
+
         git init
 * 检查文件状态
+
         git status
 * 添加文件到暂存区
+
         git add filename
     >可能遇到的问题:LF will be replaced by CRLF in readme.txt.The file will have its original line endings in your working directory
     >
@@ -43,95 +37,105 @@ git常用配置
     >CRLF：CarriageReturn LineFeed，回车 换行
 
 * 提交到本地版本库
+
         git commit -m '提交信息'
 * 查看文件改动
+
         git diff file
 * 提交日志
+
         git log
         git log --pretty=oneline 信息一行显示
 * 查看命令历史
+
         git reflog （和版本有关的），一般用于回到未来的版本，却不知道版本号
 
 撤销操作
 ---
 * _**版本**_回退
+
         git reset --hard HEAD^ 回退到上一个版本
         git reset --hard 版本号前几位
 * 撤销_**工作目录**_文件修改
+
         git checkout -- file 回退到最近版本或暂存区  
     >如果checkout之前已经将文件修改保存到暂存区，则回退到暂存区的内容，否则回退到最新版本的内容
 
 * 撤销_**暂存区**_的临时保存
+
         git reset HEAD file
     >暂存区删除所有_**该文件**_的修改，工作区不变
 
 * 删除文件
+
         rm file
         git rm file 删除暂存区的文件
         git commit -m 'msg' 提交删除
         
 远程仓库
 ---
-* git和github通信需要ssh加密
-* 生成秘钥
-        ssh-keygen -t rsa -C "youremail@example.com"
-* 给本地仓库关联一个远程仓库
-        git remote add origin git@github.com:michaelliao/learngit.git
-* 推送改动
-    >`git push -u origin master`（加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令）
-    
-    >注意如果创建的远程仓库不为空（比如在创建时选了readme.md等），则在本地不能直接push（本地关联的仓库不能有文件），必须先clone下来。空仓库才可以push（相当于初始化仓库）`git pull origin master `    
+>一般操作流程:先在github上创建一个项目，然后在本地clone项目进行开发，在提交修改前，先使用 `git pull` 将别人的改动拉下来，有冲突解决冲突，然后推送
+
 * 克隆仓库
         
         git clone git@github.com:xiaoxielun/test.git
+* 更新本地仓库至最新
+        
+        git pull
+* git 和 github 通信需要 ssh 加密
 
+        ssh-keygen -t rsa -C "youremail@example.com"
+    >之后需要将共要添加到github的秘钥配置中
+
+* 给本地仓库关联一个远程仓库
+
+        git remote add origin git@github.com:michaelliao/learngit.git
+* 推送改动
+
+        git push origin master
+ 
 分支
 ---
 >一般的，可以创建一个master分支，作为生产环境，平时不做改动，创建一个dev分支用于开发，开发和测试完成后，再将改动合并到master分支上
 
-* 创建并切换到分支
-        
-        git checkout -b dev
-        
-    >切换分支会影响工作目录的文件内容，会切换到目标分支最后一次提交的内容
-
 * 创建分支
         
         git branch dev
+* 创建并切换到分支
+        
+        git checkout -b dev
+    >切换分支会影响工作目录的文件内容，会切换到目标分支最后一次提交的内容
+
 * 切换分支
         
         git checkout dev
+    >切换之前需要保证工作目录干净，未提交的需要提交，避免冲突
 * 分支列表
         
         git branch
+    >master分支与其它分支没有任何区别
+
+* 合并分支到当前分支
+        
+        git merge <branch>
+         
+    >如果有冲突，需要手动解决冲突，之后 `add commit` 提交新版本
 * 删除分支
         
         git branch -d 分支名
-    >如果分支未合并，可能不能直接删除，可以 `-D` 强制删除
+    >如果分支未合并，不能直接删除，可以 `-D` 强制删除
         
         git branch -D 分支名
 * 哪些分支已经合并到当前分支
         
         git branch --merged
-
 * 还没有合并的分支
 
         git branch --no-merged
-更新与合并
----
-* 更新本地仓库至最新
-        
-        git pull
-* 合并分支到当前分支
-        
-        git merge <branch>
-        
-    >可以先切换分支，然后合并  
-    >如果有冲突，需要手动解决冲突，之后add commit提交新版本
         
 标签
 ---
-git tag 1.0.0 版本号
+    git tag 版本号 git版本号
 
 参考
 ---
