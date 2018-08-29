@@ -152,3 +152,5 @@ git常用配置
 ---
 [git - 简明指南](http://rogerdudler.github.io/git-guide/index.zh.html)
 [Git - Book](https://git-scm.com/book/zh/v2)
+
+master
