@@ -54,8 +54,8 @@ mysql锁机制
     * InnoDB的锁定模式可以分为四种：共享锁（S），排他锁（X），意向共享锁（IS）和意向排他锁（IX）
     
     * 意向锁是InnoDB自动加的，不需用户干预。对于UPDATE、DELETE和INSERT语句，InnoDB会自动给涉及数据集加排他锁（X)；对于普通SELECT语句，InnoDB不会加任何锁；事务可以通过以下语句显示给记录集加共享锁或排他锁  
-    >共享锁（S）：SELECT * FROM table_name WHERE ... LOCK IN SHARE MODE  
-    >排他锁（X)：SELECT * FROM table_name WHERE ... FOR UPDATE
+        >共享锁（S）：SELECT * FROM table_name WHERE ... LOCK IN SHARE MODE  
+        >排他锁（X)：SELECT * FROM table_name WHERE ... FOR UPDATE
     
     * 事务不允许其他事务在记录上加冲突的锁，锁冲突如下：
     
@@ -66,7 +66,8 @@ mysql锁机制
     * 即便在条件中使用了索引字段，但是否使用索引来检索数据是由MySQL通过判断不同执行计划的代价来决定的，如果MySQL认为全表扫描效率更高，比 如对一些很小的表，它就不会使用索引，这种情况下InnoDB将使用表锁，而不是行锁。因此，在分析锁冲突时，别忘了检查SQL的执行计划，以确认是否真 正使用了索引
     
 * 间隙锁
-    当我们用范围条件而不是相等条件检索数据，并请求共享或排他锁时，InnoDB会给符合条件 的已有数据记录的索引项加锁；对于键值在条件范围内但并不存在的记录，叫做“间隙（GAP)”，InnoDB也会对这个“间隙”加锁，这种锁机制就是所谓 的间隙锁（Next-Key锁）
+
+        当我们用范围条件而不是相等条件检索数据，并请求共享或排他锁时，InnoDB会给符合条件 的已有数据记录的索引项加锁；对于键值在条件范围内但并不存在的记录，叫做“间隙（GAP)”，InnoDB也会对这个“间隙”加锁，这种锁机制就是所谓 的间隙锁（Next-Key锁）
     
 
 页级锁定（page-level）
