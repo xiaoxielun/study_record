@@ -143,9 +143,6 @@ git常用配置
 * 概述
         
         在目标分支的基础上（共同祖先），将当前分支的改动在运行一次，git中的这种操作叫变基
-
-        test
-
 标签
 ---
     git tag 版本号 git版本号
@@ -156,3 +153,4 @@ git常用配置
 [Git - Book](https://git-scm.com/book/zh/v2)
 
 master
+q
