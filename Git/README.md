@@ -2,11 +2,11 @@ Git学习笔记
 ===
 目录
 ---
-* [初始化仓库](#初始化仓库)  
-* [git配置](#git配置)  
-* [工作流](#工作流)
-* [检查文件状态](#检查文件状态)  
-* [添加文件到暂存区](#添加文件到暂存区)  
+* [工作流](#工作流)  
+* [git常用配置](#git常用配置)  
+* [常用命令](#常用命令)  
+* [撤销操作](#撤销操作)  
+
 * [提交到版本库](#提交到版本库)  
 * [查看文件改动](#查看文件改动)  
 * [最近提交日志](#最近提交日志)  
@@ -20,73 +20,62 @@ Git学习笔记
 * [更新与合并](#更新与合并)  
 * [标签](#标签)  
 
-初始化仓库
----
-        git init
-git配置
----
-        git config user.name 'username'
-        
-        git config user.email 'email'
 工作流
 ---
->你的本地仓库由 git 维护的三棵“树”组成。第一个是你的 工作目录，它持有实际文件；第二个是 暂存区（Index），它像个缓存区域，临时保存你的改动；最后是 HEAD，它指向你最后一次提交的结果。
+>本地仓库由 `git` 维护的三棵 " 树 " 组成。第一个是工作目录，它持有实际文件；第二个是暂存区（Index），它像个缓存区域，临时保存改动；最后是 HEAD，它指向最后一次提交的结果。
 
-检查文件状态
+git常用配置
 ---
+        git config user.name 'username'
+        git config user.email 'email'
+        git config push.default 'simple'
+常用命令
+---
+* 初始化仓库、创建仓库
+        git init
+* 检查文件状态
         git status
-添加文件到暂存区
----
+* 添加文件到暂存区
         git add filename
->可能遇到的问题:warning: LF will be replaced by CRLF in readme.txt.The file will have its original line endings in your working directory
->
->这是因为git配置core.autocrlf = true 导致的，当autocrlf为true，git自动将添加至暂存区的文件中换行符为crlf替换为lf，checkout时再换回来，也就是说始终保证工作区的换行符为crlf，所以在window环境下可以配置该选项（linux下强烈建议配置为false）  
->CRLF：CarriageReturn LineFeed，回车 换行
+    >可能遇到的问题:LF will be replaced by CRLF in readme.txt.The file will have its original line endings in your working directory
+    >
+    >这是因为git配置core.autocrlf = true 导致的，当autocrlf为true，git自动将添加至暂存区的文件中换行符为crlf替换为lf，checkout时再换回来，也就是说始终保证工作区的换行符为crlf，所以在window环境下可以配置该选项（linux下强烈建议配置为false）  
+    >CRLF：CarriageReturn LineFeed，回车 换行
 
-提交到版本库
----
+* 提交到本地版本库
         git commit -m '提交信息'
-查看文件改动
----
+* 查看文件改动
         git diff file
-最近提交日志
----
+* 提交日志
         git log
-
         git log --pretty=oneline 信息一行显示
-版本回退
----
-        git reset --hard HEAD^ 回退到上一个版本
-
-        git reset --hard 版本号前几位
-查看命令历史
----
+* 查看命令历史
         git reflog （和版本有关的），一般用于回到未来的版本，却不知道版本号
-取消文件修改
+
+撤销操作
 ---
+* _**版本**_回退
+        git reset --hard HEAD^ 回退到上一个版本
+        git reset --hard 版本号前几位
+* 撤销_**工作目录**_文件修改
         git checkout -- file 回退到最近版本或暂存区  
->如果checkout之前有git add，则回退到add之后的状态  
->如果checkout之前没有git add，回退到最近版本之后的状态
+    >如果checkout之前已经将文件修改保存到暂存区，则回退到暂存区的内容，否则回退到最新版本的内容
 
-从暂存区撤销
----
+* 撤销_**暂存区**_的临时保存
         git reset HEAD file
->暂存区删除所有该文件的修改，工作区保持修改
+    >暂存区删除所有_**该文件**_的修改，工作区不变
 
-删除文件
----
->先在工作区删除文件
-
+* 删除文件
+        rm file
         git rm file 删除暂存区的文件
         git commit -m 'msg' 提交删除
+        
 远程仓库
 ---
 * git和github通信需要ssh加密
 * 生成秘钥
-        
         ssh-keygen -t rsa -C "youremail@example.com"
 * 给本地仓库关联一个远程仓库
-        
         git remote add origin git@github.com:michaelliao/learngit.git
 * 推送改动
     >`git push -u origin master`（加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令）
