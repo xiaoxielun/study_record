@@ -260,18 +260,23 @@ PHPUnit 的目标之一是测试应当可组合：我们希望能将任意数量
     * Flat XML DataSet （平直 XML 数据集）
             
         * 用法
+        
                 <?xml version="1.0" ?>
                 <dataset>
                     // <表名 键="值" 键="值" 键="值" />
                     <guestbook id="1" content="Hello buddy!" user="joe" created="2010-04-24 17:15:23" />
                     <guestbook id="2" content="I like it!" user="nancy" created="2010-04-26 12:14:20" />
                 </dataset>
+                
         * 空表
+        
                 <?xml version="1.0" ?>
                 <dataset>
                     <guestbook />
                 </dataset>
+                
         * NULL值
+        
                 <?xml version="1.0" ?>
                 <dataset>
                     <guestbook id="1" content="Hello buddy!" user="joe" created="2010-04-24 17:15:23" />
@@ -411,6 +416,97 @@ PHPUnit 的目标之一是测试应当可组合：我们希望能将任意数量
 
 测试替身
 ---
+有时测试环境下不能使用被测功能的组件，可以使用测试替身来代替，其只需要提供和真正组件相同的API即可。
+
+* Stubs （桩件）
+    
+    * 上桩 [@](StubTest.php)
+        
+        配置测试替身方法的返回值。步骤如下:
+        
+        1. 为需要的类生成桩件
+        2. 流畅式接口配置桩件
+        3. 调用桩件和断言
+
+        >如果原始类中包含"method"方法，就必须使用：  
+        >`$stub->expects($this->any())->method('doSomething')->willReturn('foo');`
+    
+    * 流畅式接口（对替身的伪方法进行配置） [@](StubTest.php)
+    
+        * 配置方法的实参作为返回值返回
+        
+        `$stub->method('doSomething')->will($this->returnArgument(0));`
+    
+        * 配置方法返回桩件对象的引用
+        
+        `$stub->method('doSomething')->will($this->returnSelf());`
+    
+        * 配置方法在不同参数下返回相应值
+        
+        `$stub->method('doSomething')->will($this->returnValueMap($map));`
+        
+        * 配置返回调用指定函数
+        
+        `$stub->method('doSomething')->will($this->returnCallback('str_rot13'));`
+
+        * 配制方法返回期望值(会按给定顺序返回)
+        
+        `$stub->method('doSomething')->will($this->onConsecutiveCalls(2, 3, 5, 7));`
+        
+        * 配置方法抛出异常
+        
+         `$stub->method('doSomething')->will($this->throwException(new Exception));`
+
+* 仿件对象(Mock Object)
+
+    * 模仿 [@](MockTest.php)
+        
+        配置测试替身，使其能够验证预期行为。
+        
+        比如，给仿件对象上的方法配置，预期该方法会被调用几次，调用时的参数是什么，来完成整个模仿。
+        
+    * 模仿相关方法 [@](MockTest.php)
+    
+        * `expects()` 指定方法调用的次数
+        
+                // 只调用一次
+                `$mock->expects($this->once())...`
+                // 调用两次
+                `$mock->expects($this->exactly(2))...`
+        
+        * `with()` 指定方法被调用的实参规则
+        
+                // 预期被调用的实参为'something'
+                `...->with($this->equalTo('something'));`
+                // 对参数多种形式的约束，第一个参数大于0，第二个参数包含'Something'，第三个参数任意
+                `->with(
+                           $this->greaterThan(0),
+                           $this->stringContains('Something'),
+                           $this->anything()
+                );`
+
+        * `withConsecutive()` 指定方法被调用的实参的多组规则 [@](MockTest.php)
+        
+        * `callback()` 指定更复杂的实参检验规则，指定一个回调函数作为验证规则
+        
+        * `identicalTo()` 指定实参为某一对象
+        
+    * 仿件生成器提供的方法:
+    
+        * `setMethods(array $methods)` 可以在仿件生成器对象上调用，来指定哪些方法将被替换为可配置的测试替身。其他方法的行为不会有所改变。如果调用 `setMethods(null)`，那么没有方法会被替换。
+        * `setConstructorArgs(array $args)` 可用于向原版类的构造函数（默认情况下不会被替换为伪实现）提供参数数组。
+        * `setMockClassName($name)` 可用于指定生成的测试替身类的类名。
+        * `disableOriginalConstructor()` 参数可用于禁用对原版类的构造方法的调用。
+        * `disableOriginalClone()` 可用于禁用对原版类的克隆方法的调用。
+        * `disableAutoload()` 可用于在测试替身类的生成期间禁用 `__autoload()`。
+    
+* Prophecy [@](https://github.com/phpspec/prophecy)
+    
+* 对特质(Trait)与抽象类进行模仿 [@](TraitTest.php)
+
+* 对 Web 服务(Web Services)进行上桩或模仿
+
+* 对文件系统进行模仿
 
 测试实践
 ---
