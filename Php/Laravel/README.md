@@ -2,7 +2,9 @@ Laravel学习笔记
 ===
 目录
 ---
-[Facades](#Facades)
+[Facades](#facades)
+[Artisan](#Artisan)
+[参考](#参考)
 
 Facades
 ---
@@ -89,3 +91,106 @@ Laravel 还包含各种 『辅助函数』来实现一些常用功能，许多�
             $podcast->test();
         }
     }
+
+Artisan [@](https://laravel-china.org/docs/laravel/5.6/artisan/1385)
+---
+### 简介
+Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令来帮助你构建 Laravel 应用。查看所有可用的 Artisan 命令的列表:
+        
+    php artisan list
+
+### 编写命令
+除 Artisan 提供的命令外，还可以构建自己的自定义命令。 命令通常存储在 app/Console/Commands 目录中。
+
+* 生成命令
+
+    使用 Artisan 命令 `make:command` 创建新命令。这个命令会在 `app/Console/Commands` 目录中创建一个新的命令类。生成的命令会包括所有命令中默认存在的属性和方法：
+
+        php artisan make:command SendEmails
+
+* 命令结构 [@](演示文件/SendEmails.php)
+    
+    自动生成的命令类会有 ` signature ` 和 ` description ` 属性，填写后，在使用 ` php artisan list ` 命令时会显示出用法。方法 ` handle ` 用来定义命令逻辑。
+
+* 定义输入期望 [@](https://laravel-china.org/docs/laravel/5.6/artisan/1385#defining-input-expectations)
+
+    通过配置 ` signature ` 属性的格式，可以定义命令在使用时的参数，可用选项等。
+
+* I/O命令
+
+    * 在 ` handle ` 方法中可以使用 ` argument ` 和 ` option ` 方法来获取命令的参数和选项。还有 ` arguments ` 和 ` options ` 。
+
+    * 可以使用 ` ask ` 方法来接收用户输入。
+
+    * 如果需要用户输入敏感的内容，可以使用 ` secret ` 方法。
+
+    * 使用 ` confirm ` 方法让用户确认。
+
+### 另一种定义自定义命令的方法
+
+在 ` app/Console/Kernel.php ` 文件的 ` commands ` 方法中， Laravel 加载了 ` routes/console.php ` 文件。在这个文件中，可以使用 ` Artisan::command ` 方法定义基于闭包的路由(闭包命令)。` command ` 方法接收两个参数：命令签名 和一个接收命令参数和选项的闭包：
+
+    Artisan::command('build {project}', function ($project) {
+        $this->info("Building {$project}!");
+    });
+* 类型提示依赖
+    
+    闭包命令也可以使用类型提示从服务容器中解析你想要的其他依赖关系:
+
+        use App\User;
+        use App\DripEmailer;
+
+        Artisan::command('email:send {user}', function (DripEmailer $drip, $user) {
+            $drip->send(User::find($user));
+        });
+* 闭包命令描述
+
+    可以像类命令一样，在使用 ` php artisan list ` 命令时显示使用方法:
+        Artisan::command('build {project}', function ($project) {
+            $this->info("Building {$project}!");
+        })->describe('Build the project');
+
+### 注册命令
+在 ` app/Console/Kernel.php ` 文件的 ` commands ` 方法中使用 ` load ` 方法加载的文件，都会进行命令注册。也可以在 ` app/Console/Kernel.php ` 文件的 ` $commands ` 属性中手动注册命令的类名。
+
+### 使用命令
+
+* CLI中执行命令
+
+* 使用 Artisan 的 ` facades `(门面)来在程序中使用命令:
+    
+        Route::get('/foo', function () {
+            
+            $exitCode = Artisan::call('email:send', [
+                'user' => 1, '--queue' => 'default'
+            ]);
+        }); 
+
+* 在 命令类的 ` handle ` 方法或闭包命令的闭包中使用 ` $this->call() ` 来调用其它命令。
+
+* 调用 ` callSilent() ` 在调用命令时屏蔽输出。
+
+### 常用命令
+
+* 创建新命令
+
+        php artisan make:command
+
+* 创建控制器或其他文件
+
+        php artisan make:controller
+
+* 缓存配置文件
+    
+        php artisan config:cache
+
+* 缓存路由
+    
+        php artisan route:cache
+* 在 ` public ` 目录下创建到 ` storage ` 目录的软连接
+        
+        php artisan storage:link
+
+参考
+---
+[Laravel 5.6 中文文档](https://laravel-china.org/docs/laravel/5.6)
