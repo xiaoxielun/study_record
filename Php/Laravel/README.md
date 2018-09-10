@@ -2,14 +2,51 @@ Laravel学习笔记
 ===
 目录
 ---
-[Facades](#facades)
-[Artisan](#Artisan)
+
+[服务容器](#服务容器)
+[Facades](#facades)  
+[Artisan](#Artisan)  
 [参考](#参考)
+
+服务容器 [@](https://laravel-china.org/docs/laravel/5.6/container/1359)
+---
+
+#### 简介
+Laravel 服务容器是用于管理类的依赖和执行依赖注入的工具。在构造函数中指明参数类型，服务容器会自动注入所需依赖。
+容器使用反射自动解析对象进行注入。
+
+#### 绑定
+一般在服务提供器的 ` register ` 方法中进行绑定
+* 简单绑定
+
+        $this->app->bind('HelpSpot\API', function ($app) {
+            return new HelpSpot\API($app->make('HttpClient'));
+        });
+
+* 绑定一个单例
+
+        $this->app->singleton('HelpSpot\API', function ($app) {
+            return new HelpSpot\API($app->make('HttpClient'));
+        });
+    之后只会解析同一个对象实例。
+
+* 绑定实例
+
+        $api = new HelpSpot\API(new HttpClient);
+
+        $this->app->instance('HelpSpot\API', $api);
+
+* 绑定接口到实现
+
+        $this->app->bind(
+            'App\Contracts\EventPusher',
+            'App\Services\RedisEventPusher'
+        );
+    某个类需要 `App\Contracts\EventPusher` 接口时，就会自动注入 `App\Services\RedisEventPusher` 实现。
 
 Facades
 ---
-
-### 简介
+#### 简介
 
 Facades（读音：/fəˈsäd/ ）为应用程序的 服务容器 中可用的类提供了一个「静态」接口。所有的 Laravel Facades 都在 `Illuminate\Support\Facades` 命名空间中定义。
 
@@ -19,7 +56,7 @@ Facades（读音：/fəˈsäd/ ）为应用程序的 服务容器 中可用的�
         return Cache::get('key');
     });
 
-### 何时使用 Facades
+#### 何时使用 Facades
 
 Facades 简单、易用。使得我们不经意间在单个类中使用许多 Facades，从而导致类变的越来越大。因此在使用 Facades的时候，要特别注意控制类的大小，让类的作用范围保持短小。
 
@@ -27,11 +64,11 @@ Facades 简单、易用。使得我们不经意间在单个类中使用许多 Fa
 
 Laravel 还包含各种 『辅助函数』来实现一些常用功能，许多辅助函数都有与之对应的 Facade。在底层，辅助函数实际上就是调用了对应 Facade提供的方法。
 
-### Facades 工作原理
+#### Facades 工作原理
 
 不管是 Laravel 自带的 Facades ， 还是自定义的 Facades ，都继承自 `Illuminate\Support\Facades\Facade` 类。`Facade` 基类使用了 `__callStatic()` 魔术方法，解析容器中相应的对象，然后进行调用。
 
-### 实时 Facades
+#### 实时 Facades
 
 有时通过注入来使用某一功能类：
     
@@ -94,12 +131,12 @@ Laravel 还包含各种 『辅助函数』来实现一些常用功能，许多�
 
 Artisan [@](https://laravel-china.org/docs/laravel/5.6/artisan/1385)
 ---
-### 简介
+#### 简介
 Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令来帮助你构建 Laravel 应用。查看所有可用的 Artisan 命令的列表:
         
     php artisan list
 
-### 编写命令
+#### 编写命令
 除 Artisan 提供的命令外，还可以构建自己的自定义命令。 命令通常存储在 app/Console/Commands 目录中。
 
 * 生成命令
@@ -126,7 +163,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
 
     * 使用 ` confirm ` 方法让用户确认。
 
-### 另一种定义自定义命令的方法
+#### 另一种定义自定义命令的方法
 
 在 ` app/Console/Kernel.php ` 文件的 ` commands ` 方法中， Laravel 加载了 ` routes/console.php ` 文件。在这个文件中，可以使用 ` Artisan::command ` 方法定义基于闭包的路由(闭包命令)。` command ` 方法接收两个参数：命令签名 和一个接收命令参数和选项的闭包：
 
@@ -150,10 +187,10 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
             $this->info("Building {$project}!");
         })->describe('Build the project');
 
-### 注册命令
+#### 注册命令
 在 ` app/Console/Kernel.php ` 文件的 ` commands ` 方法中使用 ` load ` 方法加载的文件，都会进行命令注册。也可以在 ` app/Console/Kernel.php ` 文件的 ` $commands ` 属性中手动注册命令的类名。
 
-### 使用命令
+#### 使用命令
 
 * CLI中执行命令
 
@@ -170,7 +207,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
 
 * 调用 ` callSilent() ` 在调用命令时屏蔽输出。
 
-### 常用命令
+#### 常用命令
 
 * 创建新命令
 
