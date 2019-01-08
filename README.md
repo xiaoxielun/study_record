@@ -36,3 +36,45 @@ http://jifen.yunhuiju.com/apiv1/task/publish
         ...
       ]
     }
+
+### 响应说明
+
+响应json格式的数据。
+    
+    {
+        "code":0,
+        "message": "发布任务成功!",
+        "extra": {
+            "num":"发布任务数量"
+        }
+    }
+    
+    {
+        "code":1,
+        "message": "请求信息错误!",
+        "extra": ""
+    }
+        
+    {
+        "code":2,
+        "message": "token错误!",
+        "extra": ""
+    }
+    
+    {
+        "code":3,
+        "message": "请求数据错误!",
+        "extra": ""
+    }
+    
+    {
+        "code":4,
+        "message": "没有任务可以发布!",
+        "extra": ""
+    }
+    
+    {
+        "code":5,
+        "message": "发布任务失败!",
+        "extra": ""
+    }
